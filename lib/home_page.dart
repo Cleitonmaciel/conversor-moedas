@@ -13,23 +13,40 @@ class _HomeState extends State<Home> {
   final dolarController = TextEditingController();
   final euroController = TextEditingController();
 
-  double dolar = 0;
+  void _clearAll() {
+    realController.text = '0';
+    dolarController.text = '0';
+    euroController.text = '0';
+  }
 
+  double dolar = 0;
   double euro = 0;
 
   _realChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double real = double.parse(text);
     dolarController.text = (real / dolar).toStringAsFixed(2);
     euroController.text = (real / euro).toStringAsFixed(2);
   }
 
   _dolarChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double dolar = double.parse(text);
     realController.text = (dolar * this.dolar).toStringAsFixed(2);
     euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
   }
 
   _euroChanged(String text) {
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2);
     dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
@@ -84,7 +101,7 @@ class _HomeState extends State<Home> {
                       const Icon(Icons.monetization_on,
                           size: 150, color: Colors.amber),
                       buildTextField(
-                          "Rais", "R\$ ", realController, _realChanged),
+                          "Rais", "R\$ 0.00", realController, _realChanged),
                       const Divider(),
                       buildTextField(
                           "Dolares", "US\$ ", dolarController, _dolarChanged),
